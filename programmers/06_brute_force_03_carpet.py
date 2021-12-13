@@ -8,9 +8,11 @@ yellow = 24
 def solution(brown, yellow) :
     limit = int(math.sqrt(yellow))
     for i in range(1, limit+1) :
+        # 나눠지면 y, x가 노랑사각형의 세로, 가로
         if yellow % i == 0 :
             y = i
             x = yellow // y
+        ## 노란 사각형을 감싸는 갈색
         t = 2*(x + y)
         check = 0
         n = 0
