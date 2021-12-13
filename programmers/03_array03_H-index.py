@@ -8,7 +8,7 @@ def solution(citations):
     left = 0
     right = n - 1
     max_h = 0
-    while left <= right :                   ## < 아닌 <= 해야 구현됨, 왜?
+    while left <= right :                   ## left < right 아닌 left <= right 해야 구현됨, 왜?
         mid = (left + right) // 2
         if citations[mid] >= n -  mid :
             max_h = n - mid
