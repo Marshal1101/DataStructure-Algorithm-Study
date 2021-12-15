@@ -6,6 +6,7 @@ location = 0
 
 def solution(priorities, location) :
     queue = deque([])
+    # 인덱스, 값을 큐에 튜플로 저장
     for i, value in enumerate(priorities) :
         queue.append((value, i))
     target = -1
@@ -13,8 +14,10 @@ def solution(priorities, location) :
     while target != location :
         max_value, useless = max(queue)
         now_value, now_idx = queue.popleft()
+        # 최대 우선 순위가 아니면 큐 뒤로 넣기
         if now_value != max_value :
             queue.append((now_value, now_idx))
+        # 해당하면 출력수 +1, 인덱스 타겟에 넣기
         else :
             printed_pages += 1
             target = now_idx
