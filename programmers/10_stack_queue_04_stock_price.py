@@ -17,3 +17,28 @@ def solution(prices):
     return bullish
 
 print(solution(prices))
+
+
+
+## 참조 정답
+#
+# def solution(prices):
+#     from collections import deque
+#     answer = []
+#     prices = deque(prices)
+    
+#     while prices:
+#         now = prices.popleft()
+#         time = 0
+        
+#         if prices:
+#             for i in prices:
+#                 if i>= now:
+#                     time += 1
+#                 else:
+#                     time += 1
+#                     break
+        
+#         answer.append(time)
+    
+#     return answer
