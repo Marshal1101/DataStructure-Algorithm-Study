@@ -1,41 +1,35 @@
-## 이중순위우선큐 (구현)
-
-# 명령어	수신 탑(높이)
-# I 숫자	큐에 주어진 숫자를 삽입합니다.
-# D 1	큐에서 최댓값을 삭제합니다.
-# D -1	큐에서 최솟값을 삭제합니다.
-
+# 깊이/너비 우선 탐색(DFS/BFS) 여행경로 ()
+from collections import deque
 from heapq import heappop, heappush
-import sys
 
-input = sys.stdin.readline
+tickets = [["ICN", "SFO"], ["ICN", "ATL"], ["SFO", "ATL"], ["ATL", "ICN"], ["ATL", "SFO"]]
 
-k = int(input())
-for i in range(k) :
-    n = int(input())
-    min_heap = []
-    max_heap = []
-    heap_cnt = 0
-    for j in range(n) :
-        order, num = input().split()
-        if order == "I" :
-            heappush(min_heap, int(num))
-            heappush(max_heap, -int(num))
-            heap_cnt += 1
-        elif order == "D" :
-            if heap_cnt > 0 :
-                if num == "-1" :
-                    heappop(min_heap)
-                elif num == "1" :
-                    heappop(max_heap)
-                heap_cnt -= 1
-                # 힙 카운트 0이 되면 한 번은 pop이 되었던 숫자들만 남음
-                # 최대 최소 힙을 비움 list.clear()
-                if heap_cnt == 0 :
-                    min_heap.clear()
-                    max_heap.clear()
-                    
-    if heap_cnt > 0 :
-        print(-heappop(max_heap), heappop(min_heap))
-    else :
-        print("EMPTY")
+# [['ATL', 'ICN'], ['ATL', 'SFO'], ['ICN', 'ATL'], ['ICN', 'SFO'], ['SFO', 'ATL']]
+
+def solution(tickets):
+    n = len(tickets)
+    start = tickets[0][0]
+    tickets.sort()
+    for i in range(n) :
+        if tickets[i][0] == start :
+            visited = [False] * n
+            path_list = [start]
+            path_cnt = 0
+            visited[i] = True
+            visited_cnt = 1
+            stack = [tickets[i]]        
+            while stack :
+                used_ticket = stack.pop()
+                path_list.append(used_ticket[1])
+                path_cnt += 1
+                if path_cnt == n:
+                    return path_list
+                elif path_cnt > n :
+                    break
+                if visited_cnt <= n :
+                    for j in range(n-1, -1, -1) :
+                        if tickets[j][0] == used_ticket[1] :
+                            if not visited[j] :
+                                visited[j] = True
+                                visited_cnt += 1
+                                stack.append(tickets[j])
