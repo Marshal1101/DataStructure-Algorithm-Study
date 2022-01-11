@@ -1,8 +1,8 @@
 
 def bit() :
-    a = 2**4
-    b = 1
-    if a >> 1 == b << 3 :
-        return True
-
+    c = '1234567890'
+    l = len(c)
+    print(c[0], l)
+    a = [2, 5, 6]
+    b = [1, 2, 4, 5, 6]
 print(bit())
