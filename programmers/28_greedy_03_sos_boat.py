@@ -38,4 +38,26 @@ def solution(people, limit):
 
     return answer
 
+
+
+## 대체할 while문 : 팝하기 전에 값을 체크하고 여부를 따지면 될 일
+## 참조 (상우)
+
+from collections import deque
+def solution(people, limit):
+    answer = 0
+    people.sort()
+    people = deque(people)
+    while people:
+        a = limit
+        p = people.pop()#제일 무거운사람
+        a-=p
+        if people and a>=people[0]:#제일 가벼운사람
+            people.popleft()
+        
+        answer+=1
+    
+    return answer
+
+
 print(solution([70, 50, 80, 50], 100))
