@@ -23,7 +23,7 @@ const newCard = [...cardSet].sort((a, b) => a - b);
 
 let result = "";
 nums.forEach((num) => {
-    let left = 0;
+    let left = 1;
     let right = newCard.length-1;
     while (left <= right) {
         let mid = Math.floor((left + right) / 2);
