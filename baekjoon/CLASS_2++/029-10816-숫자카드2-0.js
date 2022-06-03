@@ -34,7 +34,7 @@ function Solution() {
     const result = [];
 
     for (let i = 0; i < M; i++) {
-        const num = findNum[i];
+        const num = findNum[i];a
 
         if (cardNum.has(num)) {
             result.push(cardNum.get(num));
