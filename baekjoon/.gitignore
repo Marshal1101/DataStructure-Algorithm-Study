@@ -1,9 +1,13 @@
 ## Wrong solution
 *-x*.py
 
+## test python
+xxx.py
+
 ## test input file
 test.txt
 test.py
+*.in
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/python
