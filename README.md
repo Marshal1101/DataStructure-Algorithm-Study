@@ -1,4 +1,5 @@
-# algorithm-study
+# DataStructure-Algorithm-Study
+
 ## baekjoon
 ### 현재 solved.ac CLASS 문제 위주로 풀이
 ### 입력방법 에시
