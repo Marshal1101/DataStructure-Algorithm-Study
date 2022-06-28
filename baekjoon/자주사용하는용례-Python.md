@@ -18,3 +18,14 @@ eat.sort(key = lambda x : (x[2], x[0], x[1]))
 >>> for key, val in a.items():
 ...     print("key = {key}, value={value}".format(key=key,value=val))
 ```
+
+#### 플로이드워셜
+```python
+for k in range(n) :
+    for i in range(n) :
+        for j in range(n) :
+            if i == j : graph[i][j] = 0; continue
+            temp = graph[i][k] + graph[k][j]
+            if temp < graph[i][j] :
+                graph[i][j] = temp
+```
