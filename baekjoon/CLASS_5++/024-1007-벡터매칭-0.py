@@ -4,6 +4,7 @@
 Probliem Link: https://www.acmicpc.net/problem/1007
 Solution Link: https://jintak0401.github.io/posts/boj-1007
 """
+
 from sys import stdin
 
 input = stdin.readline

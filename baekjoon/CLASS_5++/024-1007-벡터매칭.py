@@ -1,3 +1,8 @@
+"""
+Probliem Link: https://www.acmicpc.net/problem/1007
+"""
+
+
 import sys, math
 
 def distance(dx, dy) :
