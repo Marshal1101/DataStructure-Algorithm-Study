@@ -37,7 +37,6 @@ def main() :
 
         graph = [0] * (N+1)
         visited = [False] * (N+1)
-        circled = [False] * (N+1)
         for i, sel in zip(range(1, N+1), map(int, input().split())) :
             graph[i] = sel
         
