@@ -1,22 +1,11 @@
 import sys
 
 
-def set_pos(i, j, v, pos, N, M) :
-    if v == 'U' :
-        pos[i*M + j] = (i-1) * M + j
-    elif v == 'D' :
-        pos[i*M + j] = (i+1) * M + j
-    elif v == 'L' :
-        pos[i*M + j] = i * M + j - 1
-    else :
-        pos[i*M + j] = i * M + j + 1
-
-
-def dfs(i, pos, visited) :
+def dfs(i, pos, visited, dir) :
     start = i
     while visited[i] == -1 :
         visited[i] = start
-        i = pos[i]
+        i = i + dir[pos[i]]
     else :
         if visited[i] == start :
             return 1
@@ -26,17 +15,18 @@ def main() :
     input = sys.stdin.readline
     N, M = map(int, input().split())
     T = N * M
-    pos = [0] * T
+    pos = []
     for i in range(N) :
-        for j, arrow in enumerate(list(input().rstrip())) :
-            set_pos(i, j, arrow, pos, N, M)
+        pos += list(input().rstrip())
 
-    # print(pos)
+    # https://www.acmicpc.net/source/46395660
+    dir = {'L': -1, 'R': 1, 'U': -M, 'D': M}
+    
     visited = [-1] * T
     shelter = 0
     for i in range(T) :
         if visited[i] == -1 :
-            shelter += dfs(i, pos, visited)
+            shelter += dfs(i, pos, visited, dir)
 
     print(shelter)
 
