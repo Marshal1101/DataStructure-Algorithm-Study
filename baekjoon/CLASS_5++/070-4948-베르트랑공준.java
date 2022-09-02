@@ -2,7 +2,7 @@ import java.io.InputStreamReader;
 import java.io.BufferedReader;
 
 public class Main {
-    public static int[] prime = new int[246913];
+    public static boolean[] prime = new boolean[246913];
     
 
     public boolean primeCheck(int num) throws Exception {
