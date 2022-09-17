@@ -7,83 +7,78 @@ def main():
     board = [list(input().rstrip()) for _ in range(N)]
     print(bfs(N, M, board))
 
+def get_east_pos(i, j, M, board):
+    while (j < M and board[i][j] == '.'):
+        j += 1
+    return (i, j)
 
-def get_next_pos(dir, si, sj, N, M, board):
-    if dir == 'l':
-        while (sj > 1 and board[si][sj] == '.'):
-            sj -= 1
-        if board[si][sj] != '#': return (si, sj)
-        else: return (si, sj+1)
-    elif dir == 'r':
-        while (sj < M-1 and board[si][sj] == '.'):
-            sj += 1
-        if board[si][sj] != '#': return (si, sj)
-        else: return (si, sj-1)
-    elif dir == 'u':
-        while (si > 1 and board[si][sj] == '.'):
-            si -= 1
-        if board[si][sj] != '#': return (si, sj)
-        else: return (si+1, sj)
-    elif dir == 'd':
-        while (si < N-1 and board[si][sj] == '.'):
-            si += 1
-        if board[si][sj] != '#': return (si, sj)
-        else: return (si-1, sj)
+def get_west_pos(i, j, M, board):
+    while (j > M and board[i][j] == '.'):
+        j -= 1
+    return (i, j)
+
+def get_north_pos(i, j, N, board):
+    while (i > N and board[i][j] == '.'):
+        i -= 1
+    return (i, j)
+
+def get_south_pos(i, j, N, board):
+    while (i < N and board[i][j] == '.'):
+        i += 1
+    return (i, j)
+
+def check_move(pos, flag, queue, N, M, board, func_get_pos):
+    nri, nrj = func_get_pos(pos[0], pos[1], M, board)
+    if board[nri][nrj] != 'O':
+        nrj -= 1
+        flag[0] = False
+    else: flag_R = True
+    nbi, nbj = func_get_pos(pos[2], pos[3], N, M, board)
+    if board[nbi][nrj] != 'O':
+        nbj -= 1
+        flag_B = False
+    else: flag[1] = True
+    if flag_R and not flag_B:
+        return True
+    else:
+        queue.append([nri, nrj, nbj])
 
 
 def bfs(N, M, board):
+    pos = []
     for i in range(N):
         for j in range(M):
-            if board[i][j] != '#' and board[i][j] != '.':
-                if board[i][j] == 'R':
-                    Ri, Rj = i, j
-                    board[i][j] = '.'
-                elif board[i][j] == 'B':
-                    Bi, Bj = i, j
-                    board[i][j] = '.'
-                else: goal = (i, j)
-
-    print('goal:', goal, 'R:', Ri, Rj, 'B:', Bi, Bj)
-    try_cnt = 0
-    que = deque([(Ri, Rj, Bi, Bj)])
+            if board[i][j] == 'R':
+                pos.append(i)
+                pos.append(j)
+                board[i][j] = '.'
+            elif board[i][j] == 'B':
+                pos.append(i)
+                pos.append(j)
+                board[i][j] = '.'
+    
+    count = 0
+    flag_RB = [False, False]
+    que = deque([pos])
     while que:
-        print('que:', que)
+        count += 1
         length = len(que)
-        try_cnt += 1
         for _ in range(length):
-            ri, rj, bi, bj = que.popleft()
+            rb_pos = que.popleft()
+            check_move(rb_pos, flag_RB, que, N, M, board, get_east_pos)
 
-            # 위
-            nbi, nbj = get_next_pos('u', bi, bj, N, M, board)
-            if (nbi, nbj) != goal and ri > 1 and board[ri-1][rj] != '#':
-                nri, nrj = get_next_pos('u', ri-1, rj, N, M, board)
-                if (nri, nrj) == goal: return try_cnt
-                elif nri != ri or nrj != rj:
-                    que.append((nri, nrj, nbi, nbj))
-            # 아래
-            nbi, nbj = get_next_pos('d', bi, bj, N, M, board)
-            if (nbi, nbj) != goal and ri < N-1 and board[ri+1][rj] != '#':
-                nri, nrj = get_next_pos('d', ri+1, rj, N, M, board)
-                if (nri, nrj) == goal: return try_cnt
-                elif nri != ri or nrj != rj:
-                    que.append((nri, nrj, nbi, nbj))
-            # 자
-            nbi, nbj = get_next_pos('l', bi, bj, N, M, board)
-            if (nbi, nbj) != goal and rj > 1 and board[ri][rj-1] != '#':
-                nri, nrj = get_next_pos('l', ri, rj-1, N, M, board)
-                if (nri, nrj) == goal: return try_cnt
-                elif nri != ri or nrj != rj:
-                    que.append((nri, nrj, nbi, nbj))
-            # 우
-            nbi, nbj = get_next_pos('r', bi, bj, N, M, board)
-            if (nbi, nbj) != goal and rj < M-1 and board[ri][rj+1] != '#':
-                nri, nrj = get_next_pos('r', ri, rj+1, N, M, board)
-                if (nri, nrj) == goal: return try_cnt
-                elif nri != ri or nrj != rj:
-                    que.append((nri, nrj, nbi, nbj))
-
-    return -1
-
+            nri, nrj = get_east_pos(ri, rj, M, board)
+            if board[nri][nrj] != 'O':
+                nrj -= 1
+                flag_R = False
+            else: flag_R = True
+            nbi, nbj = get_east_pos(bi, bj, M, board)
+            if board[nbi][nrj] != 'O':
+                nbj -= 1
+                flag_B = False
+            else: flag_B = True
+            if flag_R and not flag_B:
+                return count
 
 if __name__ == '__main__':
     main()
