@@ -31,6 +31,7 @@ vector<string> split_debug(string input, string delimiter) {
     ret.push_back(input);
     return ret;
 }
+
 int main(){
     string s = "안녕하세요 큰돌이는 킹갓제너럴 천재입니다 정말이에요!";
     string d = " ";
