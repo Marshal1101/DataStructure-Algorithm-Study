@@ -34,7 +34,7 @@ public class Main {
         int N = src.length();
         int M = search.length();
 
-        pi = getPartialMatch(search);
+        int[] pi = getPartialMatch(search);
 
         int begin = 0;
         int matched = 0;
