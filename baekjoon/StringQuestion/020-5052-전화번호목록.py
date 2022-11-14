@@ -1,93 +1,47 @@
-import sys
+import sys; input = sys.stdin.readline
 
 
-def brute_force(src: str, search: str) -> list:
-    ret = []
-    begin = 0
-    while (begin + len(search) <= len(src)):
-        matched = True
-        for i in range(len(search)):
-            if src[begin + i] != search[i]:
-                matched = False
-                break
+class Node(object):
+    def __init__(self, key, data=None):
+        self.key = key
+        self.data = data
+        self.children = {}
 
-        if matched:
-            ret.append(begin)
-            
-        begin += 1
-    
-    return ret
+class Trie(object):
+    def __init__(self):
+        self.head = Node(None)
 
+    def insert(self, string):
+        curr_node = self.head
+        for s in string:
+            if s not in curr_node.children:
+                curr_node.children[s] = Node(s)
+            curr_node = curr_node.children[s]
+        curr_node.data = string
 
-def get_partial_match(search: str) -> list:
-    M = len(search)
-    pi = [0] * M
-    begin = 1
-    matched = 0
-
-    while begin + matched < M:
-        if search[begin + matched] == search[matched]:
-            matched += 1
-            pi[begin+matched-1] = matched
-
-        else:
-            if matched == 0:
-                begin += 1
-            else:
-                begin += matched - pi[matched-1]
-                matched = pi[matched-1]
-
-    return pi
+    def search_prefix(self, string):
+        curr_node = self.head
+        for s in string:
+            curr_node = curr_node.children[s]
+        if curr_node.children: return False
+        else: return True
 
 
-def KMP_search(src: str, search: str) -> list:
-    ret = []
-    N = len(src)
-    M = len(search)
+T = int(input())
+for _ in range(T):
+    N = int(input())
+    trie = Trie()
+    nums = []
+    for _ in range(N):
+        num = input().rstrip()
+        nums.append(num)
+        trie.insert(num)
 
-    pi = get_partial_match(search)
-
-    begin = 0
-    matched = 0
-    while begin <= N - M:
-        if matched < M and src[begin + matched] == search[matched]:
-            matched += 1
-            if matched == M:
-                ret.append(begin)
-
-        else:
-            if matched == 0:
-                begin += 1
-            else:
-                begin += matched - pi[matched-1]
-                matched = pi[matched-1]
-
-    return ret
-
-
-def main():
-    input = sys.stdin.readline
-    T = int(input())
-    ret = []
-    for _ in range(T):
-        N = int(input())
-        numbers = []
-        for _ in range(N):
-            curr_num = input().rstrip()
+    flag = True
+    nums.sort()
+    for num in nums:
+        if not trie.search_prefix(num):
             flag = False
-            for prev_num in numbers:
-                pi = brute_force(curr_num, prev_num)
-                # print("pi", pi)
-                if pi and pi[0] == 0:
-                    ret.append("NO")
-                    flag = True
-                    break
-            numbers.append(curr_num)
-            if flag: break
-        else: ret.append("YES")
-        
-    print("\n".join(ret))
-
-
-if __name__ == '__main__':
-    main()
+            break
+    if flag: print("YES")
+    else: print("NO")
