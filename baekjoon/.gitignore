@@ -2,10 +2,11 @@
 .vscode
 
 ## Wrong solution
-*-x*.py
+*-x*.*
 
 ## test python
-xxx.py
+xxx.*
+test.*
 
 ## test input file
 test.txt
