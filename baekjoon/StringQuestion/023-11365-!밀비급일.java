@@ -21,7 +21,7 @@ public class Main {
 
         String line = br.readLine().replace("\n", "");
         while (true) {
-            if (line.charAt(0) == 'E' && line.charAt(1) == 'N' && line.charAt(2) == 'D') {
+            if (line.equals("END")) {
                 break;
             }
             String revStr = reverse(line);
