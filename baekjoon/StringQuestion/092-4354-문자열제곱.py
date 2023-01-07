@@ -18,7 +18,6 @@ def compute_prefix(target: str) -> list:
 
 input = sys.stdin.readline
 while (s := input().rstrip()) != ".":
-    s.find
     pi = compute_prefix(s)
     if pi[-1] == 0: print(1)
     else:
