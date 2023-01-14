@@ -24,14 +24,14 @@ for _ in range(6):
 wi = draw.index(max_w)
 if draw[(wi+1)%6] != max_h:
     sh = draw[(wi+1)%6]
-elif draw[(wi-1)%6] != max_h:
-    sh = draw[(wi-1)%6]
+elif draw[(wi+5)%6] != max_h:
+    sh = draw[(wi+5)%6]
 
 hi = draw.index(max_h)
 if draw[(hi+1)%6] != max_w:
     sw = draw[(hi+1)%6]
-elif draw[(hi-1)%6] != max_w:
-    sw = draw[(hi-1)%6]
+elif draw[(hi+5)%6] != max_w:
+    sw = draw[(hi+5)%6]
 
 square = (max_h * max_w) - (max_h - sh) * (max_w - sw)
 print(square * K)
