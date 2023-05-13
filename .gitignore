@@ -1,6 +1,9 @@
 ## vscode
 .vscode
 
+# C file
+*.exe
+
 # test py file
 *-x*.py
 *-x*.js
