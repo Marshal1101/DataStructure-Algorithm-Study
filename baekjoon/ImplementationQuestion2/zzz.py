@@ -1,52 +1,49 @@
-while True:
-    try:
-        N = int(input())
-        nums = list(map(int, input().split()))
-        ans = 0
+import sys
 
-        if N == 1:
-            print(nums[0], nums)
-        
-        else:
-            cnt = 2
-            if nums[1] > nums[0]:
-                opt = 1
-            elif nums[1] < nums[0]:
-                opt = -1
-            else:
-                opt = 0
+def dfs(cur, d, graph, on_stk, stk, ans):
+    global id
+    id += 1
+    d[cur] = id
+    stk.append(cur)
+    on_stk[cur] = True
+    
+    parent = d[cur]
+    for adj in graph[cur]:
+        if not d[adj]:
+            parent = min(parent, dfs(adj, d, graph, on_stk, stk, ans))
+        elif on_stk[adj]:
+            parent = min(parent, d[adj])
 
-            same = 0
-            prev = nums[1]
-            for i in range(2, N):
-                if nums[i] > prev:
-                    if opt != -1:
-                        cnt += 1
-                        opt = 1
-                    else:
-                        if cnt > ans:
-                            ans = cnt
-                        cnt = 2 + same
-                        opt = 1
-                    same = 0
+    if parent == d[cur]:
+        scc = []
+        while True:
+            node = stk.pop()
+            on_stk[node] = False
+            scc.append(node)
+            if cur == node:
+                break
+        ans.append((*sorted(scc), -1))
+    return parent
 
-                elif nums[i] < prev:
-                    if opt != 1:
-                        cnt += 1
-                        opt -= 1
-                    else:
-                        if cnt > ans:
-                            ans = cnt
-                        cnt = 2 + same
-                        opt = -1
-                    same = 0
-                
-                else:
-                    same += 1
-                    cnt += 1
-                
-                prev = nums[i]
+def main():
+    input = sys.stdin.readline
+    V, E = map(int, input().split())
+    graph = defaultdict(list)
+    for _ in range(E):
+        v1, v2 = map(int, input().split())
+        graph[v1].append(v2)
+    
+    ans = []
+    global id
+    id = 1
+    d = [0 for _ in range(V+1)]
+    stk = []
+    on_stk = [0] * (V+1)
+    for i in range(1, V+1):
+        if not d[i]:
+            dfs(i, d, graph, on_stk, stk, ans)
+    
+    print(len(ans))
 
-            print(max(cnt, ans), nums)
-    except:
-        break
+if __name__ == '__main__':
+    main()
