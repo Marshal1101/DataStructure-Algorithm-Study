@@ -1,6 +1,5 @@
 import sys
 from heapq import heappush, heappop
-from collections import deque
 
 
 def dijkstra_2nd(start, end):
@@ -21,17 +20,19 @@ def dijkstra_2nd(start, end):
                 heappush(hq, (exp_w, adj))
             elif exp_w == min_w[adj]:
                 from_v[adj].add(node)
-                heappush(hq, (exp_w, adj))
 
-    queue = deque([end])
-    while queue:
-        node = queue.pop()
-        for prev in from_v[node]:
-            if node in graph[prev]:
-                del graph[prev][node]
-            else:
-                break
-            queue.append(prev)
+    stk = [end]
+    while stk:
+        new_stk = []
+        while stk:
+            node = stk.pop()
+            for prev in from_v[node]:
+                if node in graph[prev]:
+                    del graph[prev][node]
+                else:
+                    break
+                new_stk.append(prev)
+            stk = new_stk
 
     min_w = [INF] * (N)
     min_w[start] = 0
