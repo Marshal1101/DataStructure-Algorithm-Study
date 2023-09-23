@@ -1,0 +1,1 @@
+print((a:=input().split()).index('9') == -1)
